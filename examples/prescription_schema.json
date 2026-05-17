@@ -1,0 +1,15 @@
+{
+  "patient_name": "",
+  "date": "",
+  "diagnosis": "",
+  "medications": [
+    {
+      "name": "",
+      "dosage": "",
+      "frequency": "",
+      "duration": "",
+      "confidence": ""
+    }
+  ],
+  "notes": ""
+}
