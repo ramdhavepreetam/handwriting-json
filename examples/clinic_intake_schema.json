@@ -1,0 +1,10 @@
+{
+  "patient_name": "",
+  "date_of_birth": "",
+  "visit_date": "",
+  "chief_complaint": "",
+  "current_medications": [],
+  "allergies": [],
+  "contact_number": "",
+  "signature_present": false
+}

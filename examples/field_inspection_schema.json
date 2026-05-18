@@ -1,0 +1,15 @@
+{
+  "site_name": "",
+  "inspection_date": "",
+  "inspector": "",
+  "issues": [
+    {
+      "description": "",
+      "location": "",
+      "severity": "",
+      "confidence": ""
+    }
+  ],
+  "recommended_action": "",
+  "urgency": ""
+}

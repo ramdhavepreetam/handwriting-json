@@ -1,16 +1,32 @@
 # LinkedIn Launch Post Draft
 
-I originally built a tool to process roughly 15,000 handwritten prescriptions for a charitable healthcare event.
+I just published Handwriting JSON, an open-source Python package for automating handwritten document workflows.
 
-The hard part was not just reading handwriting. The hard part was turning messy scanned documents into reliable, structured JSON that another system could use.
+The idea is simple:
 
-I am now open-sourcing the generalized version: Handwriting JSON.
+- handwritten PDFs/images in
+- optional JSON Schema or example JSON
+- vision LLM provider through LiteLLM
+- automation-ready JSON out
 
-It is a Python package and CLI for schema-guided handwritten document extraction:
+Install:
 
-- PDFs/images in
-- optional JSON schema or example shape
-- vision LLM provider of your choice through LiteLLM
-- structured JSON out
+```bash
+pip install handwriting-json
+```
 
-GitHub: https://github.com/ramdhavepreetam/handwriting-json
+Use it for handwritten signup sheets, field notes, inspection forms, school slips, donation forms, clinic intake paperwork, scanned records, and other paper workflows that still need to become software data.
+
+This project was inspired by OmmSai, a tool I originally built around a charitable healthcare workflow involving roughly 15,000 handwritten prescription files. But prescriptions are only one example. The broader problem is everywhere: organizations still collect important information on paper, and software needs structured fields, not loose text.
+
+OCR answers: "What text is visible?"
+
+Handwriting JSON asks: "What structured JSON should this document become so automation can use it?"
+
+GitHub:
+https://github.com/ramdhavepreetam/handwriting-json
+
+PyPI:
+https://pypi.org/project/handwriting-json/
+
+If your team still receives handwritten forms or scanned paperwork, I would love to hear what document type is hardest to automate.

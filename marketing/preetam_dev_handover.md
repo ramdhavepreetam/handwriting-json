@@ -2,24 +2,28 @@
 
 Author: Preetam Ramdhave  
 Project: Handwriting JSON  
-Status: Published v0.1.0  
+Status: Published v0.1.1 positioning update  
 Date: May 17, 2026
 
 ## 1. Executive Summary
 
-Handwriting JSON is an open-source Python package and CLI for schema-guided handwritten document extraction. It converts handwritten PDFs and images into structured JSON using vision LLMs and optional schema guidance.
+Handwriting JSON is an open-source Python package and CLI for automating handwritten document workflows. It turns handwritten forms, notes, and scanned paperwork into automation-ready JSON using vision LLMs and optional schema guidance.
 
-The project grew out of OmmSai, a one-off healthcare automation project originally built to process roughly 15,000 handwritten prescription files for a charitable healthcare event. The public package generalizes that work beyond prescriptions into a reusable developer tool for forms, notes, surveys, field reports, medical documents, school paperwork, intake forms, and other handwritten records.
+The project was inspired by OmmSai, a healthcare automation project that processed roughly 15,000 handwritten prescription files for a charitable healthcare event. That origin story is useful proof, but it should not define the product. The public product is broader: any handwritten document that needs to become structured data for software.
 
 Core positioning:
 
-> Schema-guided handwritten document extraction for developers.
+> Turn handwriting into automation-ready JSON.
+
+Expanded positioning:
+
+> Handwriting JSON helps developers automate workflows that still depend on handwritten forms, notes, and scanned paperwork.
 
 Short pitch:
 
-> Convert handwritten PDFs and images into structured JSON using vision LLMs and optional schema guidance.
+> Convert handwritten PDFs/images into structured JSON using vision LLMs and optional schema guidance.
 
-## 2. Current Public Links
+## 2. Public Links
 
 GitHub:
 
@@ -27,11 +31,7 @@ https://github.com/ramdhavepreetam/handwriting-json
 
 PyPI:
 
-https://pypi.org/project/handwriting-json/0.1.0/
-
-TestPyPI:
-
-https://test.pypi.org/project/handwriting-json/0.1.0/
+https://pypi.org/project/handwriting-json/
 
 Install:
 
@@ -52,43 +52,64 @@ handwriting-json --help
 handwriting-json version
 ```
 
-## 3. Why This Project Exists
+## 3. The Market Problem
 
-The original problem was practical: a charitable healthcare event had thousands of handwritten prescription documents that needed to become structured data. Manual transcription was too slow, too error-prone, and not realistic at that volume.
+Many organizations still collect important data on paper:
 
-The broader problem is not limited to healthcare. Many teams still receive valuable operational data as handwritten documents: intake sheets, field notes, inspection forms, student forms, surveys, clinic forms, registration forms, and scanned records. OCR can return text, but applications need structured JSON that follows a predictable shape.
+- registration forms
+- field inspection notes
+- school permission slips
+- donation forms
+- clinic intake forms
+- KYC forms
+- survey sheets
+- maintenance reports
+- delivery notes
+- meeting notes
+- lab slips
+- old scanned records
 
-Handwriting JSON focuses on that gap:
+OCR can return text, but automation usually needs fields. A CRM, ticketing system, spreadsheet import, compliance workflow, student database, or review queue needs structured JSON.
 
-- Input: messy handwritten PDFs/images.
-- Guidance: optional JSON Schema or example JSON.
-- Model: vision LLM routed through LiteLLM.
-- Output: application-ready JSON.
+The key message:
 
-The key insight:
+> The hard part is not just reading handwriting. The hard part is turning handwritten documents into data that software can act on.
 
-> The problem is not just reading handwriting. The problem is turning ambiguous handwritten documents into structured data that software can reliably use.
+## 4. Product Framing
 
-## 4. What Is Published Today
+Do lead with:
 
-Version: `0.1.0`
+- handwritten workflow automation
+- automation-ready JSON
+- schema-guided extraction
+- forms, notes, and scanned paperwork
+- developer-friendly Python API and CLI
+- provider flexibility through LiteLLM
 
-Published to:
+Do not lead with:
 
-- PyPI production.
-- TestPyPI.
-- GitHub public repository.
+- prescriptions
+- OCR wrapper
+- medical-only use case
+- LangChain/LangGraph
 
-Verified:
+Use prescriptions as proof:
 
-- `pip install handwriting-json==0.1.0` from PyPI works.
-- `import handwriting_json` works.
-- `from handwriting_json import extract` works.
-- `handwriting-json --help` works.
-- `handwriting-json version` returns `0.1.0`.
-- Test suite passes locally.
+> Inspired by a real healthcare workflow involving roughly 15,000 handwritten prescription files.
 
-V1 capabilities:
+## 5. What Is Published
+
+Version: `0.1.1` planned/published after positioning update.
+
+Already verified for v0.1.0:
+
+- PyPI install works.
+- TestPyPI install works.
+- GitHub repository is public.
+- Python import works.
+- CLI works.
+
+V0.1.x capabilities:
 
 - Python package.
 - Typer CLI.
@@ -100,11 +121,12 @@ V1 capabilities:
 - JSON Schema guidance.
 - Example JSON guidance.
 - Generic default extraction prompt.
-- Prescription prompt preset.
+- Multiple generic schema examples.
+- Prescription prompt preset as one domain example.
 - LiteLLM provider adapter.
 - JSON response parsing and validation warnings.
 
-V1 intentionally does not include:
+Intentional non-goals for now:
 
 - LangChain.
 - LangGraph.
@@ -114,34 +136,7 @@ V1 intentionally does not include:
 - Hosted SaaS.
 - Web frontend.
 
-Reason:
-
-> The first release should be a focused developer package that does one thing clearly: schema-guided handwritten document extraction.
-
-## 5. Technical Architecture
-
-Pipeline:
-
-```text
-input source -> normalized document -> prompt builder -> provider -> JSON parser -> optional schema validation -> result
-```
-
-Main package boundaries:
-
-- `inputs`: normalizes paths, URLs, base64 strings, bytes, and file-like objects.
-- `prompts`: builds generic and preset prompts.
-- `schemas`: detects JSON Schema vs example JSON.
-- `providers`: isolates model-provider calls behind a small interface.
-- `extract`: public Python API and JSON parsing.
-- `cli`: command-line interface.
-
-Provider strategy:
-
-- Use LiteLLM for routing across model providers.
-- Avoid LangChain/LangGraph for v0.1 because this is not yet a multi-step agent workflow.
-- Add orchestration later only if the product grows into retries, validation repair loops, OCR fallback, routing, and human review.
-
-## 6. Developer Usage Examples
+## 6. Usage Examples
 
 Python API:
 
@@ -149,147 +144,108 @@ Python API:
 from handwriting_json import extract
 
 result = extract(
-    "registration_form.pdf",
+    "handwritten_registration_form.jpg",
     model="anthropic/claude-sonnet-4-5",
     schema={
         "full_name": "",
-        "date": "",
         "phone": "",
-        "items": []
+        "email": "",
+        "address": "",
+        "date": "",
+        "notes": "",
+        "signature_present": False
     },
 )
 
 print(result.data)
 ```
 
-CLI single document:
+Field inspection example:
+
+```python
+result = extract(
+    "inspection_note.jpg",
+    model="anthropic/claude-sonnet-4-5",
+    schema={
+        "site_name": "",
+        "inspection_date": "",
+        "inspector": "",
+        "issues": [],
+        "recommended_action": "",
+        "urgency": ""
+    },
+)
+```
+
+CLI:
 
 ```bash
 handwriting-json extract \
-  --input form.pdf \
-  --schema examples/form_schema.json \
+  --input handwritten_signup_form.jpg \
+  --schema examples/signup_form_schema.json \
   --output result.json \
   --model anthropic/claude-sonnet-4-5
 ```
 
-CLI batch:
+## 7. Blog Article for Preetam.dev
 
-```bash
-handwriting-json batch \
-  --input-dir ./forms \
-  --output results.jsonl \
-  --model anthropic/claude-sonnet-4-5
-```
+Recommended title:
 
-Install from GitHub:
+> Turning Handwritten Forms into Automation-Ready JSON
 
-```bash
-pip install git+https://github.com/ramdhavepreetam/handwriting-json.git
-```
+Alternative titles:
 
-Install from PyPI:
-
-```bash
-pip install handwriting-json
-```
-
-## 7. Differentiation
-
-Do not position this as only an OCR wrapper.
-
-Better positioning:
-
-- Schema-guided extraction.
-- Developer-first handwritten document parsing.
-- Vision LLM provider abstraction.
-- Practical batch extraction foundation.
-- Built from a real 15,000-document use case.
-
-Comparison language:
-
-- OCR gives text.
-- Handwriting JSON gives structured JSON shaped for your application.
-- OCR asks, "What text is visible?"
-- Handwriting JSON asks, "What structured data should this document become?"
-
-## 8. Ideal Audience
-
-Primary:
-
-- Developers building document automation pipelines.
-- AI engineers prototyping vision LLM workflows.
-- Founders or operators processing handwritten forms.
-- Clinics, schools, NGOs, and small operations teams with paper workflows.
-
-Secondary:
-
-- Recruiters and hiring managers evaluating practical AI engineering work.
-- Forward Deployed Engineering teams that value real-world automation.
-- Open-source users looking for small, focused AI utilities.
-
-## 9. Blog Article for Preetam.dev
-
-Recommended title options:
-
-1. From 15,000 Handwritten Prescriptions to an Open-Source Python Package
-2. Why I Built Handwriting JSON: Schema-Guided Extraction for Handwritten Documents
-3. OCR Is Not Enough: Turning Handwritten Forms into Structured JSON
-4. Building Handwriting JSON: A Developer Tool for Messy Real-World Documents
-
-Recommended final title:
-
-> From 15,000 Handwritten Prescriptions to an Open-Source Python Package
+1. OCR Is Not Enough: Turning Handwritten Forms into Structured JSON
+2. From Paper Workflows to JSON: Why I Built Handwriting JSON
+3. Automating Handwritten Documents with Vision LLMs and Schema Guidance
+4. From 15,000 Prescriptions to a General Handwriting Automation Package
 
 Recommended subtitle:
 
-> How a charity healthcare automation project became Handwriting JSON, a schema-guided Python package for turning handwritten PDFs and images into structured JSON.
+> How a healthcare automation project became a general-purpose Python package for turning handwritten forms, notes, and scanned paperwork into structured JSON.
 
-Blog structure:
+Recommended article structure:
 
-1. Hook: the 15,000-prescription origin story.
-2. The real problem: handwritten documents are not application data.
-3. Why OCR alone is not enough.
-4. The design choice: schema-guided extraction.
-5. Why provider abstraction matters.
-6. Why I did not use LangChain or LangGraph for v0.1.
-7. Package and CLI examples.
-8. What is shipped today.
-9. Roadmap.
-10. Call to action: install, star GitHub, try it on a form, share feedback.
+1. Start with the broad pain: every organization still has paper workflows.
+2. Use OmmSai and the 15,000-prescription project as the origin story.
+3. Explain why the problem is broader than healthcare.
+4. Explain why OCR alone is not enough.
+5. Introduce schema-guided extraction.
+6. Show Python and CLI examples.
+7. Explain LiteLLM and provider flexibility.
+8. Explain why LangChain/LangGraph are deferred.
+9. Show roadmap.
+10. Ask readers for real document edge cases.
 
 Suggested opening:
 
-> I originally built OmmSai to process roughly 15,000 handwritten prescription files for a charitable healthcare event. The goal was simple: turn messy scanned prescriptions into structured data fast enough for people to actually use it. After the event, I realized the real problem was bigger than prescriptions. Teams everywhere still receive important data as handwritten forms, notes, and scans. OCR can read text, but most software needs JSON. So I refactored the idea into Handwriting JSON, an open-source Python package for schema-guided handwritten document extraction.
+> Every organization has at least one workflow that still starts on paper: a registration form, an inspection note, a school slip, a donation sheet, a clinic intake form, a scanned record. The problem is not only reading the handwriting. The real problem is turning that handwriting into structured data that software can use.
+>
+> I first ran into this through OmmSai, a healthcare automation project built around roughly 15,000 handwritten prescription files for a charitable healthcare event. After that project, I realized prescriptions were only one instance of a much broader pattern. So I built Handwriting JSON: an open-source Python package and CLI for turning handwritten forms, notes, and scanned paperwork into automation-ready JSON.
 
 Suggested technical section:
 
-> The key design choice is schema guidance. Without a schema, a vision model can describe a document, but the output may not be stable enough for software. With an example JSON object or JSON Schema, the model has a target shape. That turns the workflow from "read this image" into "extract this document into this data contract."
-
-Suggested LangChain/LangGraph section:
-
-> I intentionally avoided LangChain and LangGraph in v0.1. They are useful when you need multi-step orchestration, stateful agent workflows, tool routing, or graph execution. Handwriting JSON v0.1 is a focused extraction library: normalize input, build a prompt, call a vision model, parse JSON, validate if a schema exists. A small provider interface plus LiteLLM is enough for that job and keeps the package easier to install, understand, and maintain.
+> The key design choice is schema guidance. Without a schema, a vision model can describe a document, but the output may not be stable enough for automation. With an example JSON object or JSON Schema, the model has a target contract. The workflow changes from "read this image" to "extract this document into this shape."
 
 Suggested ending:
 
-> This is early, but it is already installable from PyPI. If you have handwritten forms, scanned notes, or messy PDFs that need to become JSON, try it and send me the edge cases. The best open-source AI tools are built from real documents, not perfect demos.
+> Handwriting JSON is early, but it is live on PyPI. If your team has handwritten forms, scanned notes, or paper workflows that should become software data, try it and send me the edge cases. The best version of this project will come from messy real documents, not perfect demos.
 
-## 10. LinkedIn Launch Strategy
-
-Post 1: Launch story
+## 8. LinkedIn Launch Post
 
 Hook:
 
-> I turned a tool I built for 15,000 handwritten prescriptions into an open-source Python package.
+> I just published an open-source Python package for turning handwritten forms into automation-ready JSON.
 
 Body:
 
-I originally built OmmSai for a charitable healthcare event that needed handwritten prescriptions converted into structured data.
+Every organization has paper workflows: registration forms, inspection notes, school slips, donation sheets, clinic intake forms, scanned records.
 
-The deeper lesson: the hard part was not just OCR. It was turning messy, ambiguous handwritten documents into JSON that downstream systems could trust.
+OCR can give you text. But automation needs structured fields.
 
-So I refactored the idea into Handwriting JSON:
+So I built Handwriting JSON:
 
-- PDFs/images in
+- handwritten PDFs/images in
 - optional JSON Schema or example JSON
 - vision LLM provider through LiteLLM
 - structured JSON out
@@ -301,138 +257,91 @@ Install:
 pip install handwriting-json
 ```
 
+This project was inspired by OmmSai, a healthcare automation project involving roughly 15,000 handwritten prescription files. But the package is intentionally broader: prescriptions are one example, not the product boundary.
+
 GitHub:
 https://github.com/ramdhavepreetam/handwriting-json
 
 PyPI:
 https://pypi.org/project/handwriting-json/
 
-If you work with handwritten forms, clinic paperwork, field notes, surveys, or scanned records, I would love feedback.
+If your team still receives handwritten forms or scanned paperwork, I would love to know what document type is hardest to automate.
 
-Post 2: Technical design
+## 9. Follow-Up LinkedIn Posts
 
-Hook:
-
-> OCR gives you text. Most applications need structured JSON.
-
-Body points:
-
-- OCR is useful but not sufficient.
-- The product is schema-guided extraction.
-- Example JSON guides the model toward a useful output shape.
-- JSON Schema enables validation.
-- LiteLLM keeps model choice open.
-- V0.1 intentionally avoids heavy orchestration frameworks.
-
-Post 3: Why no LangChain/LangGraph yet
+Post 2: OCR vs automation-ready JSON
 
 Hook:
 
-> I did not use LangChain or LangGraph in my new open-source AI package, and that was intentional.
+> OCR gives you text. Most workflows need fields.
 
-Body points:
+Points:
 
-- The workflow is currently a single focused extraction path.
-- Heavy orchestration would add complexity before it adds value.
-- LiteLLM solves the provider abstraction problem directly.
-- LangGraph may come later for validation repair, OCR fallback, routing, and human review.
+- Text extraction is not enough for CRM/ticketing/spreadsheet workflows.
+- Schema guidance gives the model a target structure.
+- JSON output can flow into automation.
 
-Post 4: Build-in-public roadmap
+Post 3: Why LiteLLM, not LangChain/LangGraph
 
 Hook:
 
-> V0.1 is live. Now the useful work starts.
+> I did not add LangChain or LangGraph to my handwritten document extraction package, and that was intentional.
 
-Roadmap bullets:
+Points:
 
-- Better batch processing with checkpoints.
-- Validation repair loop.
-- Docker image.
-- Cost reporting.
-- More presets.
-- Real-world examples from users.
+- V0.1 is a focused extraction primitive.
+- LiteLLM solves provider routing.
+- Orchestration frameworks become useful later for repair loops, routing, OCR fallback, and human review.
 
-## 11. GitHub README Improvements To Add Later
+Post 4: Use-case thread
 
-Add when time permits:
+Hook:
 
-- Real demo GIF.
-- Before/after document-to-JSON example.
-- Badges for PyPI version, Python versions, license, tests.
-- Provider setup section for Anthropic/OpenAI/Gemini.
-- Copy-paste examples for common schemas.
-- Troubleshooting section for invalid JSON and API keys.
-- Roadmap checklist.
+> 10 paper workflows that should become JSON.
 
-Suggested badges:
+List:
 
-```md
-![PyPI](https://img.shields.io/pypi/v/handwriting-json)
-![Python](https://img.shields.io/pypi/pyversions/handwriting-json)
-![License](https://img.shields.io/github/license/ramdhavepreetam/handwriting-json)
-```
+- signup forms to CRM
+- field notes to tickets
+- inspection sheets to compliance reports
+- permission slips to student records
+- donation forms to spreadsheets
+- intake forms to review queues
+- KYC forms to onboarding systems
+- maintenance reports to work orders
+- delivery notes to operations logs
+- scanned records to searchable JSON
 
-## 12. Launch Channels
-
-Priority order:
-
-1. LinkedIn launch post.
-2. Preetam.dev blog article.
-3. GitHub README polish.
-4. Hacker News Show HN.
-5. Reddit: r/Python, r/LocalLLaMA, r/MachineLearning if framed carefully.
-6. Submit to awesome lists after the README has examples.
-7. Follow-up LinkedIn technical posts.
-
-Show HN title:
-
-> Show HN: Handwriting JSON – Convert handwritten PDFs/images to structured JSON
-
-Show HN body:
-
-> I built this after working on a project that processed roughly 15,000 handwritten prescriptions for a charitable healthcare event. The package generalizes the idea: pass a handwritten PDF/image plus an optional JSON Schema or example JSON, and get structured JSON back using a vision LLM provider via LiteLLM. It is early, but installable from PyPI and usable as a Python package or CLI.
-
-## 13. SEO Keywords
+## 10. SEO Keywords
 
 Primary:
 
-- handwritten document extraction
+- handwritten forms to JSON
 - handwriting to JSON
+- handwritten document automation
 - handwritten PDF to JSON
-- schema-guided extraction
-- AI document extraction Python
+- schema-guided document extraction
 - vision LLM document extraction
+- AI document extraction Python
 
 Secondary:
 
 - OCR to JSON
-- handwritten forms automation
+- automate handwritten forms
+- handwritten paperwork automation
+- scanned paperwork to JSON
 - document AI Python package
 - extract structured data from handwritten forms
-- handwritten prescription extraction
 - LiteLLM vision extraction
 
-## 14. Suggested Preetam.dev Integration
+## 11. Suggested Preetam.dev Updates
 
-Current `preetam_dev` has a writing route and an existing OmmSai article stub:
-
-- `/writing`
-- `/writing/[slug]`
-- existing slug: `ommsai-case-study`
-
-Recommended site update:
-
-- Add a new article slug: `handwriting-json-launch`.
-- Keep the older OmmSai article as the origin story if desired.
-- Add Handwriting JSON to the work/project grid as a separate open-source project.
-- Link GitHub and PyPI prominently.
-
-Recommended article metadata:
+Writing article metadata:
 
 ```ts
 {
-  title: "From 15,000 Handwritten Prescriptions to an Open-Source Python Package",
-  description: "How I turned a charity healthcare automation project into Handwriting JSON, a schema-guided package for handwritten document extraction.",
+  title: "Turning Handwritten Forms into Automation-Ready JSON",
+  description: "How I turned a healthcare automation project into Handwriting JSON, an open-source Python package for automating handwritten forms, notes, and scanned paperwork.",
   date: "May 17, 2026",
   readTime: "9 min read",
   slug: "handwriting-json-launch",
@@ -440,12 +349,12 @@ Recommended article metadata:
 }
 ```
 
-Recommended project metadata:
+Project metadata:
 
 ```ts
 {
   title: "Handwriting JSON",
-  description: "Open-source Python package and CLI for schema-guided handwritten document extraction. Converts handwritten PDFs/images into structured JSON using vision LLMs and LiteLLM provider routing.",
+  description: "Open-source Python package and CLI for automating handwritten document workflows. Converts forms, notes, and scanned paperwork into structured JSON using vision LLMs and optional schema guidance.",
   slug: "handwriting-json",
   tags: ["Python", "LiteLLM", "Document AI", "Open Source", "CLI"],
   metrics: "Published on PyPI",
@@ -455,80 +364,46 @@ Recommended project metadata:
 }
 ```
 
-## 15. FAQ For Marketing And Comments
+## 12. FAQ
 
 Question: Is this OCR?
 
 Answer: It uses vision LLMs for extraction. OCR returns text; Handwriting JSON focuses on structured JSON output guided by a schema or example object.
 
+Question: What can I automate with it?
+
+Answer: Signup forms, field notes, inspection sheets, permission slips, donation forms, clinic intake paperwork, KYC forms, surveys, maintenance notes, delivery slips, scanned records, and similar handwritten workflows.
+
+Question: Does it only work for prescriptions?
+
+Answer: No. Prescriptions are one healthcare example and part of the origin story. The package is generic.
+
 Question: Why LiteLLM?
 
-Answer: LiteLLM gives provider flexibility without pulling in a full orchestration framework. Users can route to different vision-capable models while the package keeps a small API.
+Answer: LiteLLM provides model-provider flexibility without adding a heavy orchestration layer.
 
 Question: Why not LangChain or LangGraph?
 
-Answer: V0.1 is a focused extraction library. LangGraph may be useful later for validation repair loops, OCR fallback, routing, and human review workflows.
-
-Question: Does it work with prescriptions?
-
-Answer: Yes, prescriptions are supported as a preset/example, but the package is generic and intended for handwritten forms and documents broadly.
+Answer: V0.1 is a focused extraction library. LangGraph may be useful later for validation repair loops, OCR fallback, document routing, and human review workflows.
 
 Question: Is it production-ready?
 
-Answer: V0.1 is an early open-source release. It is installable from PyPI and usable as a Python package/CLI. Production use should add domain-specific validation and human review for high-risk fields.
+Answer: It is an early package release. Production workflows should add domain-specific validation and human review for high-risk fields.
 
-Question: Can it run locally?
-
-Answer: The package is local, but extraction depends on whichever vision LLM provider you configure through LiteLLM. Local model support can be added if LiteLLM/provider support is available.
-
-## 16. Roadmap Talking Points
-
-Near-term:
-
-- Better batch mode with checkpoint/resume.
-- Validation repair loop.
-- Docker image.
-- More schema examples.
-- Provider setup docs.
-
-Medium-term:
-
-- OCR fallback.
-- Cost reporting.
-- Field-level confidence and evidence.
-- Human review queue export.
-- More domain presets.
-
-Long-term:
-
-- REST API mode.
-- Hosted demo.
-- Benchmark suite across handwriting document types.
-
-## 17. Proof Points To Mention
-
-- Published on PyPI.
-- Public GitHub repository.
-- Installable with one pip command.
-- Originated from a real 15,000-document charitable healthcare use case.
-- Provider-agnostic through LiteLLM.
-- No LangChain/LangGraph dependency for v0.1 simplicity.
-- Supports schema-guided extraction.
-
-## 18. Recommended Calls To Action
+## 13. Calls To Action
 
 For developers:
 
-> Try it on one messy handwritten form and open an issue with the edge case.
+> Try it on one handwritten form and open an issue with the edge case.
 
 For LinkedIn:
 
-> If your team still receives data as handwritten PDFs or images, I would love to hear what document type is hardest to automate.
+> What handwritten workflow at your company should already be automated?
 
 For GitHub:
 
-> Star the repo if you want to follow the roadmap: validation repair, Docker, and checkpointed batch extraction.
+> Star the repo to follow the roadmap: validation repair, checkpointed batch processing, Docker, and field-level evidence.
 
-For recruiters/FDE audience:
+For FDE positioning:
 
-> This is the kind of practical AI engineering I want to do more of: take messy real-world workflows, build the automation layer, and make it usable by teams beyond the original use case.
+> This is the kind of AI engineering I want to do more of: take messy real-world workflows, build the automation layer, and make it usable beyond the original customer or event.

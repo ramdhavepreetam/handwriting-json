@@ -1,0 +1,9 @@
+{
+  "donor_name": "",
+  "amount": "",
+  "phone": "",
+  "email": "",
+  "payment_method": "",
+  "notes": "",
+  "receipt_requested": false
+}

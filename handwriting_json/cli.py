@@ -12,7 +12,7 @@ from handwriting_json import __version__
 from handwriting_json.errors import HandwritingJsonError
 from handwriting_json.extract import extract
 
-app = typer.Typer(help="Convert handwritten documents into structured JSON.")
+app = typer.Typer(help="Turn handwritten forms, notes, and scanned paperwork into automation-ready JSON.")
 
 
 @app.command("extract")

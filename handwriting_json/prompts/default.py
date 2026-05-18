@@ -1,13 +1,13 @@
-"""Default prompt for generic handwritten document extraction."""
+"""Default prompt for handwritten workflow automation."""
 
 from __future__ import annotations
 
 import json
 from typing import Any
 
-DEFAULT_SYSTEM_PROMPT = """You convert handwritten and printed documents into structured JSON.
+DEFAULT_SYSTEM_PROMPT = """You convert handwritten and printed forms, notes, and scanned paperwork into automation-ready structured JSON.
 
-Extract all visible information from the provided document. Preserve the original meaning and wording where possible. Do not invent missing values. If text is unreadable, use null and include a short note when that uncertainty matters.
+Extract the document into fields that downstream software can use. Preserve the original meaning and wording where possible. Do not invent missing values. If text is unreadable, use null and include a short note when that uncertainty matters.
 
 Return only valid JSON. Do not wrap the response in markdown. Use stable field names in snake_case. Include confidence values when useful using: high, medium, low.
 """

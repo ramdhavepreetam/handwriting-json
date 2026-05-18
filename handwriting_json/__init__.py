@@ -5,4 +5,4 @@ from .models import DocumentInput, ExtractionResult
 
 __all__ = ["DocumentInput", "ExtractionResult", "extract"]
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"

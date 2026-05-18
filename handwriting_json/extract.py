@@ -26,7 +26,7 @@ def extract(
     document_id: str | None = None,
     max_tokens: int = 8192,
 ) -> ExtractionResult:
-    """Extract structured JSON from a handwritten document."""
+    """Extract automation-ready JSON from a handwritten document."""
     document = normalize_input(source, document_id=document_id)
     schema_kind, schema_value = load_schema_guidance(schema)
     prompt = build_extraction_prompt(

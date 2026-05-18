@@ -1,6 +1,8 @@
 # Roadmap
 
-## V1
+Handwriting JSON is focused on automating handwritten document workflows by turning forms, notes, and scanned paperwork into structured JSON.
+
+## V0.1
 
 - Pip-installable package.
 - Python API and CLI.
@@ -8,18 +10,29 @@
 - PDF, PNG, JPG/JPEG, and WebP support.
 - LiteLLM provider abstraction.
 - JSON Schema and example JSON guidance.
-- Generic extraction prompt plus prescription preset.
+- Generic extraction prompt.
+- Multiple generic schema examples.
+- Prescription preset as one domain example.
 
-## V1.1
+## V0.1.x
+
+- Better provider setup documentation.
+- More synthetic before/after examples.
+- README badges and install verification notes.
+- More workflow examples: CRM, ticketing, spreadsheet, compliance review.
+
+## V0.2
 
 - Checkpointed batch processing.
 - Validation repair loop.
-- Docker image.
+- JSONL failure report.
 - Cost and usage reporting.
 
 ## Later
 
+- Docker image.
 - REST API mode.
 - OCR fallback.
 - More domain presets.
 - Field-level evidence extraction.
+- Human review queue export.

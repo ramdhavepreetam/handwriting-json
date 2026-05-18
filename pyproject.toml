@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "handwriting-json"
-version = "0.1.0"
-description = "Convert handwritten documents into structured JSON with vision LLMs."
+version = "0.1.1"
+description = "Turn handwritten forms, notes, and scanned paperwork into automation-ready JSON."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }

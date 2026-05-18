@@ -2,13 +2,19 @@
 
 ## Working title
 
-From 15,000 handwritten prescriptions to a generic document extraction package
+OCR Is Not Enough: Turning Handwritten Forms into Automation-Ready JSON
+
+## Thesis
+
+The hard part is not simply reading handwriting. The hard part is turning ambiguous handwritten documents into structured data that downstream software can trust.
 
 ## Sections
 
-1. The original problem: charitable healthcare event paperwork at scale.
-2. Why OCR alone is not enough for structured extraction.
-3. Schema-guided prompting as the core design choice.
-4. Why LiteLLM instead of LangChain/LangGraph for V1.
-5. Batch processing lessons: retries, checkpoints, failures, cost.
-6. What is next: validation repair loop, Docker, and field-level evidence.
+1. Origin: from a 15,000-document healthcare workflow to a generic automation package.
+2. The broader problem: handwritten forms, notes, slips, sheets, and records still drive real workflows.
+3. Why OCR alone is not enough for automation.
+4. Schema-guided extraction: example JSON and JSON Schema as target contracts.
+5. Provider abstraction: why LiteLLM is enough for v0.1.
+6. Why LangChain/LangGraph are intentionally deferred.
+7. CLI and Python API examples.
+8. Roadmap: validation repair, checkpointed batch, Docker, OCR fallback.
